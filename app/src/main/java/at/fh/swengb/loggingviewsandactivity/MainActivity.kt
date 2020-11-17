@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import kotlinx.android.synthetic.main.activity_lesson_list.*
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -30,7 +31,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(shareIntent)
 
         }
-
         open_views.setOnClickListener {
             val intent = Intent(this, ViewsActivity::class.java)
             startActivity(intent)
@@ -38,6 +38,10 @@ class MainActivity : AppCompatActivity() {
 
         open_rating.setOnClickListener {
             val intent = Intent(this, RatingActivity::class.java)
+            startActivity(intent)
+        }
+        open_lessons.setOnClickListener {
+            val intent = Intent(this, LessonListActivity::class.java)
             startActivity(intent)
         }
     }
