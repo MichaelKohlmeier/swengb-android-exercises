@@ -100,5 +100,7 @@ object LessonRepository {
 
     fun rateLesson(id: String, rating: LessonRating) {
         // TODO ADD Rating to lesson
+       val les = lessonById(id)
+        les?.ratings?.add(rating)
     }
 }
