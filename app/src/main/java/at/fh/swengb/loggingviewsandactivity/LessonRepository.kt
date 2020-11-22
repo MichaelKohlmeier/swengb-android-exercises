@@ -1,5 +1,10 @@
 package at.fh.swengb.loggingviewsandactivity
 
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Response.success
+
 object LessonRepository {
     private val lessons: List<Lesson>
 
@@ -89,18 +94,54 @@ object LessonRepository {
                 )
         )
     }
-
-    fun lessonsList(): List<Lesson> {
-        return lessons
+    fun lessonsList(success: (lessonList: List<Lesson>) -> Unit, error: (errorMessage: String) -> Unit) {
+        LessonApi.retrofitService.lessons().enqueue(object: Callback<List<Lesson>> {
+            override fun onFailure(call: Call<List<Lesson>>, t: Throwable) {
+                error("The call failed")
+            }
+            override fun onResponse(call: Call<List<Lesson>>, response: Response<List<Lesson>>) {
+                val responseBody = response.body()
+                if (response.isSuccessful && responseBody != null) {
+                    success(responseBody)
+                } else {
+                    error("Something went wrong")
+                }
+            }
+        })
     }
+    fun lessonByID(lessonId: String, success: (lesson: Lesson) -> Unit, error: (errorMessage: String) -> Unit) {
+        LessonApi.retrofitService.lessonsByID(lessonId).enqueue(object: Callback<Lesson>{
+            override fun onFailure(call: Call<Lesson>, t: Throwable) {
+                error("The call failed")
+            }
 
+            override fun onResponse(call: Call<Lesson>, response: Response<Lesson>) {
+                val responseBody = response.body()
+                if (response.isSuccessful && responseBody != null) {
+                    success(responseBody)
+                } else {
+                    error("Something went wrong")
+                }
+            }
+        })
+    }
     fun lessonById(id: String): Lesson? {
         return lessons.find { it.id == id }
-    }
 
+    }
     fun rateLesson(id: String, rating: LessonRating) {
-        // TODO ADD Rating to lesson
-       val les = lessonById(id)
-        les?.ratings?.add(rating)
+        LessonApi.retrofitService.rateLesson(id,rating).enqueue(object: Callback<Unit>{
+            override fun onFailure(call: Call<Unit>, t: Throwable){
+                error("call failed")
+            }
+            override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
+                val responseBody = response.body()
+                if (response.isSuccessful && responseBody != null) {
+                    success(responseBody)
+                } else {
+                    error("Something went wrong")
+                }
+            }
+        })
     }
 }

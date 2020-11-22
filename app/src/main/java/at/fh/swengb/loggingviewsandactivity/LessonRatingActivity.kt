@@ -10,10 +10,14 @@ class LessonRatingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lesson_rating)
-        val lessonId = intent.getStringExtra(LessonListActivity.EXTRA_LESSON_ID)?: "no ID"
-        LessonRepository.lessonById(lessonId)
-        lesson_rating_header.text = lessonId
 
+        val lessonId = intent.getStringExtra(LessonListActivity.EXTRA_LESSON_ID)//?: "no ID"
+        if (lessonId != null){
+            LessonRepository.lessonById(lessonId)
+            lesson_rating_header.text = lessonId
+        }else{
+            lesson_rating_header.text = "no Name"
+        }
         rate_lesson.setOnClickListener{
             val ratingValue = lesson_rating_bar.rating.toDouble()
             val ratingFeedback = lesson_feedback.text.toString()
@@ -22,9 +26,10 @@ class LessonRatingActivity : AppCompatActivity() {
                     ratingValue,
                     ratingFeedback
             )
-            LessonRepository.rateLesson(lessonId,rating)
+            LessonRepository.rateLesson(lessonId?: "",rating)
             val resultIntent = Intent()
             setResult(Activity.RESULT_OK, resultIntent)
+            finish()
         }
     }
 }

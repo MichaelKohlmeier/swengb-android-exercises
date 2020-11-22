@@ -7,7 +7,9 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.squareup.moshi.Moshi
 import kotlinx.android.synthetic.main.activity_lesson_list.*
+import kotlinx.android.synthetic.main.activity_rating.*
 
 class LessonListActivity : AppCompatActivity() {
     companion object {
@@ -19,23 +21,70 @@ class LessonListActivity : AppCompatActivity() {
         //Toast.makeText(this, "Lesson with name: ${it.name} has been clicked", Toast.LENGTH_LONG).show()
         val implicitIntent = Intent(this, LessonRatingActivity::class.java)
         implicitIntent.putExtra(EXTRA_LESSON_ID, it.id)
-        startActivity(implicitIntent)
+        startActivityForResult(implicitIntent, ADD_OR_EDIT_RATING_REQUEST)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lesson_list)
+        //Thread.sleep(5000)
+        SleepyAsyncTask().execute()
 
-        lessonAdapter.updateList(LessonRepository.lessonsList())
+        LessonRepository.lessonsList(
+            success = {
+                // handle success
+                lessonAdapter.updateList(it)
+            },
+            error = {
+                // handle error
+                "Error"
+            }
+        )
+        fun parseJson() {
+            val moshi = Moshi.Builder().build()
+            val jsonAdapter = moshi.adapter<Lesson>(Lesson::class.java)
+            val lesson = jsonAdapter.fromJson("""
+            {
+                "id": "1",
+                "name": "Lecture 0",
+                "date": "09.10.2019",
+                "topic": "Introduction",
+                "type": "LECTURE",
+                "lecturers": [
+                {
+                    "name": "Lukas Bloder"
+                },
+                {
+                    "name": "Peter Salhofer"
+                }
+                ],
+                "ratings": []
+            }
+            """)
+            Log.e("JsonLog", lesson?.name.toString())
+        }
+
+    //    lessonAdapter.updateList(LessonRepository.lessonsList())
         lesson_recycler_view.layoutManager = LinearLayoutManager(this)
         lesson_recycler_view.adapter = lessonAdapter
     }
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == ADD_OR_EDIT_RATING_REQUEST && resultCode == RESULT_OK) {
-            val resultExtra = data?.getStringExtra(RatingActivity.EXTRA_ADDED_OR_EDITED_RESULT) ?: return
+       // if (requestCode == ADD_OR_EDIT_RATING_REQUEST && resultCode == RESULT_OK) {
+          //  lessonAdapter.updateList(LessonRepository.lessonsList())
+          //  val resultExtra = data?.getStringExtra(RatingActivity.EXTRA_ADDED_OR_EDITED_RESULT) ?: return
 //do something with the returned data
-            Log.e("RESULT_EXTRA", "${resultExtra}")
-        }
+           // Log.e("RESULT_EXTRA", "${resultExtra}")
+        //}
+        LessonRepository.lessonsList(
+            success = {
+                // handle success
+                lessonAdapter.updateList(it)
+            },
+            error = {
+                // handle error
+                "Error"
+            }
+        )
     }
 }
