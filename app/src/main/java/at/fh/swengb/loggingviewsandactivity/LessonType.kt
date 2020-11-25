@@ -30,3 +30,6 @@ class Lesson(val id:String, val name:String,val date:String,val topic:String,val
 }
 @JsonClass(generateAdapter = true)
 class Lecturer(val name:String){}
+
+//test--------------------------------------------------------------------------------------------------------
+
