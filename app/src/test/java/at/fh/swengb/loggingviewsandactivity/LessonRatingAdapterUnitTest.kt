@@ -23,10 +23,12 @@ class LessonRatingAdapterUnitTest {
     }
     @Test
     fun itemCount_isCorrect() {
-        val adapter = LessonAdapter({ print(it) })
-        assertEquals(0, adapter.itemCount)
-        adapter.lessonList = items
-        assertEquals(10, adapter.itemCount)
+        val lessonAdapter = LessonAdapter({println(it)})
+        var size = lessonAdapter.itemCount;
+        assertThat(size).isEqualTo(0);
+        lessonAdapter.lessonList = items
+        size = lessonAdapter.itemCount;
+        assertThat(size).isEqualTo(10);
     }
     @Test
     fun binding_isCorrect() {
@@ -34,7 +36,7 @@ class LessonRatingAdapterUnitTest {
         val adapter = LessonAdapter({ print(it) })
         adapter.lessonList = items
         val mockHolder:LessonViewHolder = Mockito.mock(LessonViewHolder::class.java)
-        adapter.onBindViewHolder(mockHolder, 13)
-        verify(mockHolder, times(1)).bindItem(items[13])
+        adapter.onBindViewHolder(mockHolder, 5)
+        verify(mockHolder, times(1)).bindItem(items[5])
     }
 }
