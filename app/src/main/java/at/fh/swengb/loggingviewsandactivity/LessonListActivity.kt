@@ -34,10 +34,12 @@ class LessonListActivity : AppCompatActivity() {
             success = {
                 // handle success
                 lessonAdapter.updateList(it)
+                Log.i("onCreate", "Sucess")
             },
             error = {
                 // handle error
                 "Error"
+                Log.e("onCreate", "Failed to fetsch (ListActivity): $it")
             }
         )
         fun parseJson() {
@@ -58,7 +60,8 @@ class LessonListActivity : AppCompatActivity() {
                     "name": "Peter Salhofer"
                 }
                 ],
-                "ratings": []
+                "ratings": [],
+                "imageUrl": ""
             }
             """)
             Log.e("JsonLog", lesson?.name.toString())
@@ -80,10 +83,12 @@ class LessonListActivity : AppCompatActivity() {
             success = {
                 // handle success
                 lessonAdapter.updateList(it)
+                Log.i("onActivityResult", "Success")
             },
             error = {
                 // handle error
                 "Error"
+                Log.e("onActivityResult","Failed update")
             }
         )
     }

@@ -17,6 +17,7 @@ object LessonApi {
             .baseUrl("https://lessons.bloder.xyz")
             .build()
         retrofitService = retrofit.create(LessonApiService::class.java)
+
     }
 }
 interface LessonApiService {
@@ -29,5 +30,5 @@ interface LessonApiService {
 
     @GET("/lessons/{id}/")
     @Headers("X-API-KEY: ${LessonApi.accessToken}")
-    fun lessonsByID(@Path("id")lessonId:String): Call<Lesson>
+    fun lessonById(@Path("id")lessonId:String): Call<Lesson>
 }

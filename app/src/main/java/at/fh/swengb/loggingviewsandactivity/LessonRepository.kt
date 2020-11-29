@@ -6,9 +6,9 @@ import retrofit2.Response
 import retrofit2.Response.success
 
 object LessonRepository {
-    private val lessons: List<Lesson>
+   // private val lessons: List<Lesson>
 
-    init {
+ /*   init {
         val lecturerSalhofer = Lecturer("Peter Salhofer")
         val lecturerBloder = Lecturer("Lukas Bloder")
         lessons = listOf(
@@ -18,7 +18,8 @@ object LessonRepository {
                         "Introduction",
                         LessonType.LECTURE,
                         listOf( lecturerSalhofer, lecturerBloder ),
-                        mutableListOf()
+                        mutableListOf(),
+                    ""
                 ),
                 Lesson("1",
                         "Lecture 1",
@@ -26,7 +27,8 @@ object LessonRepository {
                         "Go2Kotlin",
                         LessonType.LECTURE,
                         listOf( lecturerSalhofer ),
-                        mutableListOf()
+                        mutableListOf(),
+                    ""
                 ),
                 Lesson("2",
                         "Exercise 1",
@@ -34,7 +36,8 @@ object LessonRepository {
                         "Go2Kotlin",
                         LessonType.PRACTICAL,
                         listOf( lecturerSalhofer ),
-                        mutableListOf()
+                        mutableListOf(),
+                    ""
                 ),
                 Lesson("3",
                         "Lecture 2",
@@ -42,7 +45,8 @@ object LessonRepository {
                         "Go2Kotlin-OOP",
                         LessonType.LECTURE,
                         listOf( lecturerSalhofer ),
-                        mutableListOf()
+                        mutableListOf(),
+                    ""
                 ),
                 Lesson("4",
                         "Exercise 2",
@@ -50,7 +54,8 @@ object LessonRepository {
                         "Go2Kotlin-OOP",
                         LessonType.PRACTICAL,
                         listOf( lecturerSalhofer ),
-                        mutableListOf()
+                        mutableListOf(),
+                    ""
                 ),
                 Lesson("5",
                         "Lecture 3",
@@ -58,7 +63,8 @@ object LessonRepository {
                         "SCM",
                         LessonType.LECTURE,
                         listOf( lecturerSalhofer ),
-                        mutableListOf()
+                        mutableListOf(),
+                    ""
                 ),
                 Lesson("6",
                         "Lecture 4",
@@ -66,7 +72,8 @@ object LessonRepository {
                         "Android Basics",
                         LessonType.LECTURE,
                         listOf( lecturerBloder ),
-                        mutableListOf( )
+                        mutableListOf( ),
+                    ""
                 ),
                 Lesson("7",
                         "Exercise 4",
@@ -74,7 +81,8 @@ object LessonRepository {
                         "Android Basics",
                         LessonType.PRACTICAL,
                         listOf( lecturerBloder ),
-                        mutableListOf()
+                        mutableListOf(),
+                    ""
                 ),
                 Lesson("8",
                         "Lecture 5",
@@ -82,7 +90,8 @@ object LessonRepository {
                         "Recycler View",
                         LessonType.LECTURE,
                         listOf( lecturerBloder ),
-                        mutableListOf()
+                        mutableListOf(),
+                ""
                 ),
                 Lesson("9",
                         "Exercise 5",
@@ -90,27 +99,28 @@ object LessonRepository {
                         "Android Basics",
                         LessonType.PRACTICAL,
                         listOf( lecturerBloder ),
-                        mutableListOf()
+                        mutableListOf(),
+                ""
                 )
         )
-    }
+    }*/
     fun lessonsList(success: (lessonList: List<Lesson>) -> Unit, error: (errorMessage: String) -> Unit) {
         LessonApi.retrofitService.lessons().enqueue(object: Callback<List<Lesson>> {
             override fun onFailure(call: Call<List<Lesson>>, t: Throwable) {
-                error("The call failed")
+                error("The call failed: ${t.message}")
             }
             override fun onResponse(call: Call<List<Lesson>>, response: Response<List<Lesson>>) {
                 val responseBody = response.body()
                 if (response.isSuccessful && responseBody != null) {
                     success(responseBody)
                 } else {
-                    error("Something went wrong")
+                    error("Something went wrong: ${response.code()} ${response.message()}")
                 }
             }
         })
     }
-    fun lessonByID(lessonId: String, success: (lesson: Lesson) -> Unit, error: (errorMessage: String) -> Unit) {
-        LessonApi.retrofitService.lessonsByID(lessonId).enqueue(object: Callback<Lesson>{
+    fun lessonById(lessonId: String, success: (lesson: Lesson) -> Unit, error: (errorMessage: String) -> Unit) {
+        LessonApi.retrofitService.lessonById(lessonId).enqueue(object: Callback<Lesson>{
             override fun onFailure(call: Call<Lesson>, t: Throwable) {
                 error("The call failed")
             }
@@ -125,10 +135,9 @@ object LessonRepository {
             }
         })
     }
-    fun lessonById(id: String): Lesson? {
-        return lessons.find { it.id == id }
+   // fun lessonById(id: String): Lesson? {
+        //return lessons.find { it.id == id }
 
-    }
     fun rateLesson(id: String, rating: LessonRating) {
         LessonApi.retrofitService.rateLesson(id,rating).enqueue(object: Callback<Unit>{
             override fun onFailure(call: Call<Unit>, t: Throwable){

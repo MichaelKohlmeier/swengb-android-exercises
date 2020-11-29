@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_lesson.view.*
 
 class LessonAdapter(val clickListener: (lesson: Lesson) -> Unit): RecyclerView.Adapter<LessonViewHolder>() {
@@ -45,5 +46,10 @@ class LessonViewHolder(itemView: View, val clickListener:(lesson: Lesson)->Unit)
         itemView.item_lesson_avg_rating_bar.rating = lesson.ratingAverage().toFloat()
         itemView.item_lesson_avg_rating_value.text = lesson.ratingAverage().toString()
         itemView.item_lesson_rating_count.text = lesson.ratings.size.toString()
+
+        Glide
+                .with(itemView)
+                .load(lesson.imageUrl)
+                .into(itemView.imageView)
     }
 }

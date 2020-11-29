@@ -21,7 +21,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:text="Share" />
+
 
         <Space
             android:layout_width="10dp"
@@ -33,6 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:text="Views" />
 
         <Space
@@ -45,6 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:text="Rating" />
     </LinearLayout>
 
@@ -58,6 +62,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:shapeAppearance="@style/Edges"
         app:layout_constraintVertical_bias="0.0" />
+
+
+    <ImageView
+        android:id="@+id/backgroundimage"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        android:layout_marginBottom="104dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/header_image" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

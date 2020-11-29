@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">LoggingViewsAndActivity</string>
+
+    <string name="share">Teilen</string>
+
+    <string name="views">Sicht</string>
+
+    <string name="rating">Bewertung</string>
+
+    <string name="lessons">Einheit</string>
+
+    <string name="logout">Logout</string>
+</resources>

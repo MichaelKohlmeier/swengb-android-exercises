@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">LoggingViewsAndActivity</string>
+
+    <string name="share">Share</string>
+
+    <string name="views">Views</string>
+
+    <string name="rating">Rating</string>
+
+    <string name="lessons">Lessons</string>
+
+    <string name="logout">Logout</string>
+
 </resources>

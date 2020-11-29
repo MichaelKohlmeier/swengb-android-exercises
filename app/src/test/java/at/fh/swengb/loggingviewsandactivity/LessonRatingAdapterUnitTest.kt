@@ -18,7 +18,8 @@ class LessonRatingAdapterUnitTest {
             "testing",
             LessonType.PRACTICAL,
             listOf(Lecturer("Tester")),
-            mutableListOf()
+            mutableListOf(),
+            "test"
         )
     }
     @Test

@@ -79,7 +79,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:background="#FF0000"
+        android:background="#161529"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/progressBar2"
         app:layout_constraintEnd_toEndOf="parent"

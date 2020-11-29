@@ -13,7 +13,7 @@ enum class LessonType(val description: String) {
 class LessonRating(val ratingValue:Double, val feedback: String){}
 
 @JsonClass(generateAdapter = true)
-class Lesson(val id:String, val name:String,val date:String,val topic:String,val type:LessonType, val lecturers:List<Lecturer>,val ratings:MutableList<LessonRating>){
+class Lesson(val id:String, val name:String,val date:String,val topic:String,val type:LessonType, val lecturers:List<Lecturer>,val ratings:MutableList<LessonRating>, val imageUrl: String){
     fun ratingAverage(): Double{
         return BigDecimal(ratings.map { it.ratingValue }.average().takeIf { !it.isNaN() } ?: 0.0).setScale(2, RoundingMode.HALF_EVEN).toDouble()
        /* var sum: Double = 0.0

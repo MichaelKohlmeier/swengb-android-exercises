@@ -4,8 +4,12 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Button
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_lesson_list.*
+import kotlinx.android.synthetic.main.activity_lesson_rating.*
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -70,4 +74,6 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         Log.w("MyActivity", "onDestroy")
     }
+
+
 }
