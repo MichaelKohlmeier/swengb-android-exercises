@@ -7,7 +7,9 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_lesson_rating.*
+import java.math.RoundingMode
 
 class LessonRatingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,6 +21,13 @@ class LessonRatingActivity : AppCompatActivity() {
             success = {
                 lesson_rating_header.text = it.name
                 Log.i("onCreate", "Success")
+                val ratingAvg = it.ratingAverage().toBigDecimal().setScale(2,RoundingMode.HALF_UP).toDouble()
+                ratingBar.rating = ratingAvg.toFloat()
+                textView3.text = ratingAvg.toString()
+                if(it.imageUrl != ""){
+                    Glide.with(this).load(it.imageUrl).into(imageView2)
+                }
+                feedback_text.text = it.ratings.firstOrNull{it.feedback.isNotBlank()}?.feedback
             },
             error = {
                 "Error"

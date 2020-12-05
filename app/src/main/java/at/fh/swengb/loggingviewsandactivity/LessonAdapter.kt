@@ -45,7 +45,7 @@ class LessonViewHolder(itemView: View, val clickListener:(lesson: Lesson)->Unit)
         itemView.item_lesson_lecturers.text = lesson.lecturers.joinToString(", "){it.name}
         itemView.item_lesson_avg_rating_bar.rating = lesson.ratingAverage().toFloat()
         itemView.item_lesson_avg_rating_value.text = lesson.ratingAverage().toString()
-        itemView.item_lesson_rating_count.text = lesson.ratings.size.toString()
+        itemView.item_lesson_avg_rating_count.text = lesson.ratings.size.toString()
 
         Glide
                 .with(itemView)
