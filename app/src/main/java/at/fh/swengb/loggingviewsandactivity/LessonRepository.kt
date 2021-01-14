@@ -1,14 +1,15 @@
 package at.fh.swengb.loggingviewsandactivity
 
+import android.content.Context
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Response.success
 
 object LessonRepository {
-   // private val lessons: List<Lesson>
+    private val lessons: List<Lesson>
 
- /*   init {
+    init {
         val lecturerSalhofer = Lecturer("Peter Salhofer")
         val lecturerBloder = Lecturer("Lukas Bloder")
         lessons = listOf(
@@ -103,7 +104,7 @@ object LessonRepository {
                 ""
                 )
         )
-    }*/
+    }
     fun lessonsList(success: (lessonList: List<Lesson>) -> Unit, error: (errorMessage: String) -> Unit) {
         LessonApi.retrofitService.lessons().enqueue(object: Callback<List<Lesson>> {
             override fun onFailure(call: Call<List<Lesson>>, t: Throwable) {
@@ -153,4 +154,16 @@ object LessonRepository {
             }
         })
     }
+
+    fun addLessonNote(context: Context, lessonNote: LessonNote) {
+        val applicationContext = context.applicationContext
+        val db = LessonNoteDatabase.getDatabase(applicationContext)
+        db.lessonNoteDao.insert(lessonNote)
+    }
+    fun findSameID(context: Context, id: String): LessonNote?{
+        val applicationContext = context.applicationContext
+        val db = LessonNoteDatabase.getDatabase(applicationContext)
+        return db.lessonNoteDao.findLessonBySameID(id)
+    }
+
 }

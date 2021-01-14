@@ -9,15 +9,31 @@ import android.view.Menu
 import android.view.MenuItem
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_lesson_rating.*
+import kotlinx.android.synthetic.main.activity_rating.*
 import java.math.RoundingMode
 
 class LessonRatingActivity : AppCompatActivity() {
+
+    companion object {
+        val EXTRA_LESSON_ID = "LESSON_ID_EXTRA"
+        val EXTRA_LESSON_NAME = "LESSON_NAME_EXTRA"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lesson_rating)
 
-        val lessonId = intent.getStringExtra(LessonListActivity.EXTRA_LESSON_ID)?: "no ID"
-        LessonRepository.lessonById(lessonId,
+        val lessonId = intent.getStringExtra(LessonListActivity.EXTRA_LESSON_ID)
+       // var lesson:Lesson? = null
+
+        lesson_rating.setOnClickListener {
+            val intent = Intent(this, LessonNoteActivity::class.java)
+            intent.putExtra(EXTRA_LESSON_ID, lessonId)
+            intent.putExtra(EXTRA_LESSON_NAME, lesson_rating_header.text)
+            startActivity(intent)
+        }
+
+        LessonRepository.lessonById(lessonId?:"",
             success = {
                 lesson_rating_header.text = it.name
                 Log.i("onCreate", "Success")
@@ -28,6 +44,7 @@ class LessonRatingActivity : AppCompatActivity() {
                     Glide.with(this).load(it.imageUrl).into(imageView2)
                 }
                 feedback_text.text = it.ratings.firstOrNull{it.feedback.isNotBlank()}?.feedback
+                //lesson = it
             },
             error = {
                 "Error"
@@ -70,7 +87,20 @@ class LessonRatingActivity : AppCompatActivity() {
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId) {
-            R.id.share -> consume{share()}
+
+            R.id.share -> {
+                val sendIntent: Intent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(Intent.EXTRA_TEXT, "This is my text to send.")
+                    type = "text/plain"
+                }
+
+                val shareIntent = Intent.createChooser(sendIntent, null)
+                startActivity(shareIntent)
+
+                //Toast.makeText(this, "Share", Toast.LENGTH_SHORT).show()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }

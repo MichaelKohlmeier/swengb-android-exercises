@@ -2,20 +2,27 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="at.fh.swengb.loggingviewsandactivity">
 
-    <application
+    <uses-permission android:name="android.permission.INTERNET" />
 
+    <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="LoggingViewsAndActivity"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.LoggingViewsAndActivity">
-        <activity android:name=".LessonRatingActivity"
-            android:parentActivityName=".LessonListActivity"/>
-        <activity android:name=".LessonListActivity"
-            android:parentActivityName=".MainActivity"/>
+        <activity android:name=".SettingsActivity" />
+        <activity
+            android:name=".LessonRatingActivity"
+            android:parentActivityName=".LessonListActivity" />
+        <activity
+            android:name=".LessonListActivity"
+            android:parentActivityName=".MainActivity" />
         <activity android:name=".RatingActivity" />
         <activity android:name=".ViewsActivity" />
+        <activity
+            android:name=".LessonNoteActivity"
+            android:parentActivityName=".LessonListActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,7 +30,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
-    <uses-permission android:name="android.permission.INTERNET" />
+
 </manifest>
