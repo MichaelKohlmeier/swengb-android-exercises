@@ -24,6 +24,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
 }
 
 dependencies {
@@ -47,6 +50,12 @@ dependencies {
     testImplementation 'org.mockito:mockito-inline:2.13.0'
     testImplementation "com.google.truth:truth:1.1"
     implementation 'com.github.bumptech.glide:glide:4.11.0'
+
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
+    // LiveData
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
+    // Extensions for Activity (e.g. by viewmodels)
+    implementation "androidx.activity:activity-ktx:1.1.0"
 
     testImplementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"

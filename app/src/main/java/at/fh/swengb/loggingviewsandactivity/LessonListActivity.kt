@@ -6,12 +6,16 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.squareup.moshi.Moshi
 import kotlinx.android.synthetic.main.activity_lesson_list.*
 import kotlinx.android.synthetic.main.activity_rating.*
 
 class LessonListActivity : AppCompatActivity() {
+
+    val viewModel: LessonListViewModel by viewModels()
+
     companion object {
 
         val ADD_OR_EDIT_RATING_REQUEST = 1
@@ -30,9 +34,11 @@ class LessonListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lesson_list)
         //Thread.sleep(5000)
-        SleepyAsyncTask().execute()
+     //   SleepyAsyncTask().execute()
 
-        LessonRepository.lessonsList(
+        getLessonsFromApi()
+
+      /*  LessonRepository.lessonsList(
             success = {
                 // handle success
                 lessonAdapter.updateList(it)
@@ -43,7 +49,7 @@ class LessonListActivity : AppCompatActivity() {
                 "Error"
                 Log.e("onCreate", "Failed to fetsch (ListActivity): $it")
             }
-        )
+        )*/
         fun parseJson() {
             val moshi = Moshi.Builder().build()
             val jsonAdapter = moshi.adapter<Lesson>(Lesson::class.java)
@@ -69,6 +75,18 @@ class LessonListActivity : AppCompatActivity() {
             Log.e("parseJson()", lesson?.name.toString())
         }
 
+        viewModel.lessons.observe(this) {
+            when (it) {
+                is NetworkResult.NetworkSuccess -> {
+                    lessonAdapter.updateList(it.value)
+                }
+                is NetworkResult.NetworkError -> {
+                    Toast.makeText(this, it.errorMessage, Toast.LENGTH_SHORT).show()
+                    finish()
+                }
+            }
+        }
+
     //    lessonAdapter.updateList(LessonRepository.lessonsList())
         lesson_recycler_view.layoutManager = LinearLayoutManager(this)
         lesson_recycler_view.adapter = lessonAdapter
@@ -81,7 +99,7 @@ class LessonListActivity : AppCompatActivity() {
 //do something with the returned data
            // Log.e("RESULT_EXTRA", "${resultExtra}")
         //}
-        LessonRepository.lessonsList(
+      /*  LessonRepository.lessonsList(
             success = {
                 // handle success
                 lessonAdapter.updateList(it)
@@ -92,6 +110,11 @@ class LessonListActivity : AppCompatActivity() {
                 "Error"
                 Log.e("onActivityResult","Failed update")
             }
-        )
+        )*/
+        viewModel.refresh()
+    }
+
+    private fun getLessonsFromApi(){
+        viewModel.refresh()
     }
 }

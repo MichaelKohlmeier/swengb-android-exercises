@@ -3,6 +3,7 @@ package at.fh.swengb.loggingviewsandactivity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.viewModels
 import at.fh.swengb.loggingviewsandactivity.LessonListActivity.Companion.EXTRA_LESSON_ID
 
 import at.fh.swengb.loggingviewsandactivity.LessonRatingActivity.Companion.EXTRA_LESSON_NAME
@@ -10,6 +11,9 @@ import kotlinx.android.synthetic.main.activity_lesson_note.*
 
 
 class LessonNoteActivity : AppCompatActivity() {
+
+    private val viewModel: LessonNoteViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lesson_note)
@@ -19,6 +23,14 @@ class LessonNoteActivity : AppCompatActivity() {
 
         //enter_note.text = findLessonNoteById(applicationContext, lessonId)?.lessonName?
         textView_lesson.text = lessonName.toString()
+
+        viewModel.findLessonNoteById(lessonID?:"")
+
+        viewModel.note.observe(this){
+            lesson_note_text_view.text = it?.text
+            multiline_lesson.setText(it?.text)
+        }
+
         val newnote =  LessonRepository.findSameID(applicationContext, lessonID.toString())
         multiline_lesson.setText(newnote?.text)
 
@@ -32,7 +44,7 @@ class LessonNoteActivity : AppCompatActivity() {
             LessonRepository.addLessonNote(applicationContext,note)
             //val newnote =  LessonRepository.findSameID(applicationContext, lessonID.toString())
             multiline_lesson.setText(newnote?.text)
-            finish()
+            //finish()
         }
     }
 }
